@@ -36,11 +36,13 @@ function App(props) {
   };
 
   const handleChangeCommited = (event, newValue) => {
+    console.log(newValue);
     if (newValue < 50) {
       console.log('slide right');
     } else {
       console.log('slide left');
     }
+    console.log('set value to ', 100 - newValue)
   };
 
   return (
