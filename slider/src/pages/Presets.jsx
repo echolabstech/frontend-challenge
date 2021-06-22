@@ -4,7 +4,6 @@ import Page from 'components/Page';
 export default function Presets(props) {
   const {
     pageNumber,
-    active,
     direction,
     ...rest
   } = props;
@@ -17,8 +16,6 @@ export default function Presets(props) {
         pageNumber={pageNumber}
         heading="Presets"
         subHeading="Manage presets"
-        active={active}
-        direction={direction}
       />
     </React.Fragment>
   );

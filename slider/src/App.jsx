@@ -27,46 +27,13 @@ function App(props) {
     ...rest
   } = props;
   const classes = useStyles();
-  const [value, setValue] = React.useState(30);
-  const [pageNumber, setPageNumber] = React.useState(1);
-  const [direction, setDirection] = React.useState('left');
-
-  function handleChangeCommited(event, newValue) {
-    if (value !== newValue) {
-      if (newValue < 50) {
-        setDirection('right');
-        if (pageNumber > 1) {
-          setPageNumber(pageNumber - 1);
-        } else {
-          setPageNumber(3);
-        }
-      } else {
-        setDirection('left');
-        if (pageNumber < 3) {
-          setPageNumber(pageNumber + 1);
-        } else {
-          setPageNumber(1);
-        }
-      }
-      console.log('set value to ', 100 - newValue);
-      setValue(newValue);
-    }
-  }
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.app}>
-        {pageNumber === 1 ? <Gradients pageNumber={pageNumber} active={pageNumber === 1} direction={direction} /> : null}
-        {pageNumber === 2 ? <Presets pageNumber={pageNumber} active={pageNumber === 2} direction={direction} /> : null}
-        {pageNumber === 3 ? <Colors pageNumber={pageNumber} active={pageNumber === 3} direction={direction} /> : null}
-        <Slider
-          defaultValue={30}
-          onChangeCommitted={handleChangeCommited}
-          aria-labelledby="continuous-slider"
-          classes={{
-            'root': classes['MuiSlider-root'],
-          }}
-        />
+        {pageNumber === 1 ? <Gradients pageNumber={pageNumber} /> : null}
+        {pageNumber === 2 ? <Presets pageNumber={pageNumber} /> : null}
+        {pageNumber === 3 ? <Colors pageNumber={pageNumber} /> : null}
       </div>
     </ThemeProvider>
   );

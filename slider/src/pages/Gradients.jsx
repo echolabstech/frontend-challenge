@@ -4,7 +4,6 @@ import Page from 'components/Page';
 export default function Gradients(props) {
   const {
     pageNumber,
-    active,
     direction,
     ...rest
   } = props;
@@ -17,8 +16,6 @@ export default function Gradients(props) {
         pageNumber={pageNumber}
         heading="Gradients"
         subHeading="Start, end, angle"
-        active={active}
-        direction={direction}
       />
     </React.Fragment>
   );
