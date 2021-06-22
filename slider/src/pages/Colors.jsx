@@ -4,6 +4,7 @@ import Page from 'components/Page';
 export default function Colors(props) {
   const {
     pageNumber,
+    active,
     direction,
     ...rest
   } = props;
@@ -16,6 +17,8 @@ export default function Colors(props) {
         pageNumber={pageNumber}
         heading="Color's"
         subHeading="Pick any color"
+        active={active}
+        direction={direction}
       />
     </React.Fragment>
   );

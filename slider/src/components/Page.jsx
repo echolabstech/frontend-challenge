@@ -45,38 +45,14 @@ export default function Page(props) {
     pageNumber,
     heading,
     subHeading,
-    handleChangeCommited,
+    active,
+    direction,
     ...rest
   } = props;
   const classes = useStyles();
-  const [value, setValue] = React.useState(30);
-  const [pageNumber, setPageNumber] = React.useState(1);
-  const [direction, setDirection] = React.useState('left');
-
-  function handleChangeCommited(event, newValue) {
-    if (value !== newValue) {
-      if (newValue < 50) {
-        setDirection('right');
-        if (pageNumber > 1) {
-          setPageNumber(pageNumber - 1);
-        } else {
-          setPageNumber(3);
-        }
-      } else {
-        setDirection('left');
-        if (pageNumber < 3) {
-          setPageNumber(pageNumber + 1);
-        } else {
-          setPageNumber(1);
-        }
-      }
-      console.log('set value to ', 100 - newValue);
-      setValue(newValue);
-    }
-  }
 
   return (
-    <Slide direction={direction} in={pageNumber === 1}>
+    <Slide direction={direction} in={active}>
       <div className={classes.page}>
         <div className={classes.top}>
           <Avatar
@@ -114,14 +90,6 @@ export default function Page(props) {
           }}
         ></div>
       </div>
-      <Slider
-        defaultValue={30}
-        onChangeCommitted={handleChangeCommited}
-        aria-labelledby="continuous-slider"
-        classes={{
-          'root': classes['MuiSlider-root'],
-        }}
-      />
     </Slide>
   );
 }
