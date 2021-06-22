@@ -1,10 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import Slider from '@material-ui/core/Slider';
 import clsx from 'clsx';
+import Gradients from 'pages/Gradients';
+import Presets from 'pages/Presets';
+import Colors from 'pages/Colors';
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
+import theme from './theme';
 
 const useStyles = makeStyles((theme) => ({
+  'MuiSlider-root': {
+    position: 'absolute',
+  },
   app: {
     display: 'flex',
     flexDirection: 'column',
@@ -13,55 +20,32 @@ const useStyles = makeStyles((theme) => ({
     width: '100vw',
     height: '100vh',
   },
-  screen: {
-    width: '100%',
-    height: '100%',
-    border: '1px solid black',
-
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  page: {
-    background: 'red',
-    width: '100%',
-    height: '100%',
-  },
-  page1: {
-    background: 'red',
-  },
-  page2: {
-    background: 'blue',
-  },
-  page3: {
-    background: 'green',
-  },
 }));
 
 function App(props) {
-  const rest = {
-    ...props
-  }
+  const {
+    ...rest
+  } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(30);
-  const [page, setPage] = React.useState(1);
+  const [pageNumber, setPageNumber] = React.useState(1);
+  const [direction, setDirection] = React.useState('left');
 
   function handleChangeCommited(event, newValue) {
     if (value !== newValue) {
       if (newValue < 50) {
-        console.log('page slide right');
-        if (page >= 1) {
-          setPage(page - 1);
+        setDirection('right');
+        if (pageNumber > 1) {
+          setPageNumber(pageNumber - 1);
         } else {
-          setPage(3);
+          setPageNumber(3);
         }
       } else {
-        console.log('page slide left');
-        if (page <= 3) {
-          setPage(page + 1);
+        setDirection('left');
+        if (pageNumber < 3) {
+          setPageNumber(pageNumber + 1);
         } else {
-          setPage(1);
+          setPageNumber(1);
         }
       }
       console.log('set value to ', 100 - newValue);
@@ -70,31 +54,21 @@ function App(props) {
   }
 
   return (
-    <div className={classes.app}>
-      <div className={classes.screen}>
-        <div
-          className={clsx(
-            classes.page,
-            page === 1 ? classes.page1 : null,
-            page === 2 ? classes.page2 : null,
-            page === 3 ? classes.page3 : null,
-          )}
-        ></div>
+    <ThemeProvider theme={theme}>
+      <div className={classes.app}>
+        {pageNumber === 1 ? <Gradients pageNumber={pageNumber} active={pageNumber === 1} direction={direction} /> : null}
+        {pageNumber === 2 ? <Presets pageNumber={pageNumber} active={pageNumber === 2} direction={direction} /> : null}
+        {pageNumber === 3 ? <Colors pageNumber={pageNumber} active={pageNumber === 3} direction={direction} /> : null}
         <Slider
           defaultValue={30}
           onChangeCommitted={handleChangeCommited}
           aria-labelledby="continuous-slider"
+          classes={{
+            'root': classes['MuiSlider-root'],
+          }}
         />
-        <div
-          className={clsx(
-            classes.page,
-            page === 1 ? classes.page1 : null,
-            page === 2 ? classes.page2 : null,
-            page === 3 ? classes.page3 : null,
-          )}
-        ></div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
