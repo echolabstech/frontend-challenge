@@ -31,26 +31,23 @@ function App(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(30);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleChangeCommited = (event, newValue) => {
-    console.log(newValue);
-    if (newValue < 50) {
-      console.log('slide right');
-    } else {
-      console.log('slide left');
+  function handleChangeCommited(event, newValue) {
+    if (value !== newValue) {
+      if (newValue < 50) {
+        console.log('page slide right');
+      } else {
+        console.log('page slide left');
+      }
+      console.log('set value to ', 100 - newValue);
+      setValue(newValue);
     }
-    console.log('set value to ', 100 - newValue)
-  };
+  }
 
   return (
     <div className={classes.app}>
       <div className={classes.screen}>
         <Slider
-          value={value}
-          onChange={handleChange}
+          defaultValue={30}
           onChangeCommitted={handleChangeCommited}
           aria-labelledby="continuous-slider"
         />
