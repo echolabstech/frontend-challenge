@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   screen: {
-    width: 350,
-    height: 500,
+    width: '100%',
+    height: '100%',
     border: '1px solid black',
   },
 }));
