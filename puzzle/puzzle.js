@@ -12,53 +12,23 @@
 								right=undefined,
 								bottom=undefined,
 								left=undefined,
-								position=undefined) {
+								position=undefined,
+								tile=undefined,
+		) {
 			this.number = number;
 			this.top = top;
 			this.right = right;
 			this.bottom = bottom;
 			this.left = left;
 			this.position = position;
+			this.tile = tile;
 		}
-	}
-
-	const tiles = document.querySelectorAll('li.tile');
-	tiles.forEach((tile, index) => {
-		tile.onclick = moveTile;
-	});
-	function moveTile(event) {
-		/*
-			- identify tile clicked
-			- find tile neighbors
-			- is tile neighbor 0?
-			 - yes: swap tile and tile neighbor 0
-			 - no: do nothing
-		*/
-		let clickedTile = undefined;
-		let swapTile = undefined;
-		let zeroTile = undefined;
-		board.forEach(row => {
-			row.forEach(tile => {
-				if (tile.number === 0) zeroTile = tile;
-				if (tile.number == event.currentTarget.innerText) clickedTile = tile;
-			});
-		});
-		if (clickedTile.top === zeroTile ||
-				clickedTile.right === zeroTile || 
-				clickedTile.bottom === zeroTile || 
-				clickedTile.left === zeroTile) {
-			const position = clickedTile.position;
-			clickedTile.position = zeroTile.position;
-			zeroTile.position = position;
-		}
-		updateBoard(tiles);
 	}
 
 	function random(min, max) {
 	  const num = Math.floor(Math.random() * (max - min + 1)) + min;
 	  return num;
 	}
-
 	let numbers = new Set();
 	while (numbers.size < 8) {
 		const number = random(1, 8);
@@ -66,57 +36,104 @@
 	}
 	numbers = numbers.values();
 
-	let positionCounter = 1;
-	const board = Array(3).fill(undefined).map(() => {
-		return Array(3).fill(undefined).map(() => {
-			const number = numbers.next().value || 0;
-			const tile = new Tile(number);
-			tile.position = positionCounter;
-			positionCounter = positionCounter + 1;
-			return tile;
-		});
+	const board = {
+		1: new Tile(),
+		2: new Tile(),
+		3: new Tile(),
+		4: new Tile(),
+		5: new Tile(),
+		6: new Tile(),
+		7: new Tile(),
+		8: new Tile(),
+		9: new Tile('0'),
+	}
+	board[1].right = board[2];
+	board[1].bottom = board[4];
+	board[2].left = board[1];
+	board[2].right = board[3];
+	board[2].bottom = board[5];
+	board[3].left = board[2];
+	board[3].bottom = board[6];
+	board[4].top = board[1];
+	board[4].right = board[5];
+	board[4].bottom = board[7];
+	board[5].top = board[2];
+	board[5].right = board[6];
+	board[5].bottom = board[8];
+	board[5].left = board[4];
+	board[6].top = board[3];
+	board[6].left = board[5];
+	board[6].bottom = 0;
+	board[7].top = board[4];
+	board[7].right = board[8];
+	board[8].top = board[5];
+	board[8].right = 0;
+	board[8].left = board[7];
+	board[9].top = board[6];
+	board[9].left = board[8];
+
+	const tiles = document.querySelectorAll('.tile');
+	tiles.forEach((tile, index) => {
+		tile.className = `tile position${index+1}`;
+		tile.innerText = numbers.next().value;
+		board[index + 1].number = tile.innerText;
+		board[index + 1].tile = tile;
+		board[index + 1].position = index + 1;
+		tile.onclick = moveTile;
+		tile.setAttribute('position', index + 1);
 	});
 
-	/*
-		sample board:
-		[2,7,1]
-		[8,4,3]
-		[6,5,0]
+	function swap(direction, tile) {
+		let newPosition = tile.position;
+		if (direction === 'top') {
+			newPosition = tile.position - 3;
+		} else if (direction === 'right') {
+			newPosition = tile.position + 1;
+		} else if (direction === 'bottom') {
+			newPosition = tile.position + 3;
+		} else if (direction === 'left') {
+			newPosition = tile.position - 1;
+		}
 
-		an example:
-			rowIndex = 0 # [2,7,1]
-			tileIndex = 2
-			tile = board[rowIndex][tileIndex] # tile 1
-			tile.top = board[rowIndex - 1][tileIndex] # no top
-			tile.right = board[rowIndex][tileIndex + 1] # no right
-			tile.bottom = board[rowIndex + 1][tileIndex] # bottom is tile 3
-			tile.left = board[rowIndex][tileIndex - 1] # left is tile 7
-
-		another example:
-			rowIndex = 1 # [8,4,3]
-			tileIndex = 1
-			tile = board[rowIndex][tileIndex] # tile 4
-			tile.top = board[rowIndex - 1][tileIndex] # top is tile 7
-			tile.right = board[rowIndex][tileIndex + 1] # right is tile 3
-			tile.bottom = board[rowIndex + 1][tileIndex] # bottom is tile 5
-			tile.left = board[rowIndex][tileIndex - 1] # left is tile 8
-	*/
-	function updateBoard(tiles) {
-		const updatedTiles = [];
-		board.forEach((row, rowIndex) => {
-			row.forEach((tile, tileIndex) => {
-				tile.top = board[rowIndex - 1] ? board[rowIndex - 1][tileIndex] : undefined
-				tile.right = board[rowIndex][tileIndex + 1];
-				tile.bottom = board[rowIndex + 1] ? board[rowIndex + 1][tileIndex] : undefined;
-				tile.left = board[rowIndex][tileIndex - 1];
-				updatedTiles.push(tile);
-			});
-		});
-		tiles.forEach((tile, index) => {
-			const updatedTile = updatedTiles[index];
-			tile.innerText = updatedTile.number;
-			tile.className = `tile position${updatedTile.position}`;
-		});
+		tile.tile.className = `tile position${newPosition}`;
+		if (getValidPosition(newPosition - 3)) {
+			tile.top = board[newPosition - 3];
+		} else {
+			tile.top = undefined;
+		}
+		if (getValidPosition(newPosition + 1)) {
+			tile.right = board[newPosition + 1];
+		} else {
+			tile.right = undefined;
+		}
+		if (getValidPosition(newPosition + 3)) {
+			tile.bottom = board[newPosition + 3];
+		} else {
+			tile.bottom = undefined;
+		}
+		if (getValidPosition(newPosition - 1)) {
+			tile.left = board[newPosition - 1];
+		} else {
+			tile.left = undefined;
+		}
+		console.log(tile);
 	}
-	updateBoard(tiles);
+
+	function getValidPosition(position) {
+		if (position >= 1 && position <= 9) return position;
+		return undefined;
+	}
+
+	function reShuffleBoard() {
+		// update tile directions (i.e. up, right, etc...)
+	}
+
+	function moveTile(event) {
+		const position = event.currentTarget.getAttribute('position');
+		const tile = board[position];
+		if (tile.top === 0) swap('top', tile);
+		if (tile.right === 0) swap('right', tile);
+		if (tile.bottom === 0) swap('bottom', tile);
+		if (tile.left === 0) swap('left', tile);
+	}
 })();
