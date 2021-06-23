@@ -17,6 +17,12 @@
 		console.log('move tile ', event.currentTarget.innerText);
 	}
 
+	class Tile {
+		constructor(number) {
+			this.number = number;
+		}
+	}
+
 	const puzzle = document.querySelector('.puzzle-figure');
 	const tiles = document.querySelectorAll('.tile');
 	tiles.forEach(tile => {tile.onclick = moveTile;});
@@ -25,4 +31,15 @@
 		[3, 1, 7],
 		[4, 2, 0]
 	];
+
+	function random(min, max) {
+	  const num = Math.floor(Math.random() * (max - min + 1)) + min;
+	  return num;
+	}
+
+	const numbers = new Set();
+	while (numbers.size < 8) {
+		const number = random(1, 8);
+		numbers.add(number);
+	}
 })();
