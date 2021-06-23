@@ -18,8 +18,12 @@
 	}
 
 	class Tile {
-		constructor(number) {
+		constructor(number=0, top=undefined, right=undefined, bottom=undefined, left=undefined) {
 			this.number = number;
+			this.top = top;
+			this.right = right;
+			this.bottom = bottom;
+			this.left = left;
 		}
 	}
 
@@ -41,7 +45,42 @@
 
 	const board = Array(3).fill(undefined).map(() => {
 		return Array(3).fill(undefined).map(() => {
-			return numbers.next().value || 0;
+			const number = numbers.next().value || 0;
+			return new Tile(number);
+		});
+	});
+
+	/*
+		sample board:
+		[2,7,1]
+		[8,4,3]
+		[6,5,0]
+
+		an example:
+			rowIndex = 0 # [2,7,1]
+			tileIndex = 2
+			tile = board[rowIndex][tileIndex] # tile 1
+			tile.top = board[rowIndex - 1][tileIndex] # no top
+			tile.right = board[rowIndex][tileIndex + 1] # no right
+			tile.bottom = board[rowIndex + 1][tileIndex] # bottom is tile 3
+			tile.left = board[rowIndex][tileIndex - 1] # left is tile 7
+
+		another example:
+			rowIndex = 1 # [8,4,3]
+			tileIndex = 1
+			tile = board[rowIndex][tileIndex] # tile 4
+			tile.top = board[rowIndex - 1][tileIndex] # top is tile 7
+			tile.right = board[rowIndex][tileIndex + 1] # right is tile 3
+			tile.bottom = board[rowIndex + 1][tileIndex] # bottom is tile 5
+			tile.left = board[rowIndex][tileIndex - 1] # left is tile 8
+	*/
+	board.forEach((row, rowIndex) => {
+		row.forEach((tile, tileIndex) => {
+			tile = board[rowIndex][tileIndex];
+			tile.top = board[rowIndex - 1] ? board[rowIndex - 1][tileIndex] : undefined
+			tile.right = board[rowIndex][tileIndex + 1];
+			tile.bottom = board[rowIndex + 1] ? board[rowIndex + 1][tileIndex] : undefined;
+			tile.left = board[rowIndex][tileIndex - 1];
 		});
 	});
 	console.log(board);
