@@ -1,12 +1,13 @@
 figure.puzzle-figure {
-	width: 380px;
+	position: relative;
+	left: 100px;
+	top: 100px;
 }
 
 ul.puzzle {
 	list-style: none;
-	display: flex;
-	justify-content: flex-start;
-	flex-wrap: wrap;
+	width: 360px;
+	height: 360px;
 	border: 10px solid black;
 	border-radius: 10px;
 	padding: 0px;
@@ -22,4 +23,63 @@ li.tile {
 	justify-content: center;
 	align-items: center;
 	font-size: 3em;
+}
+
+.position1 {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+.position2 {
+	position: absolute;
+	top: 10px;
+	left: 130px;
+}
+
+.position3 {
+	position: absolute;
+	top: 10px;
+	left: 250px;
+}
+
+.position4 {
+	position: absolute;
+	top: 130px;
+	left: 10px;
+}
+
+.position5 {
+	position: absolute;
+	top: 130px;
+	left: 130px;
+}
+
+.position6 {
+	position: absolute;
+	top: 130px;
+	left: 250px;
+}
+
+.position7 {
+	position: absolute;
+	top: 250px;
+	left: 10px;
+}
+
+.position8 {
+	position: absolute;
+	top: 250px;
+	left: 130px;
+}
+
+.position9 {
+	position: absolute;
+	top: 250px;
+	left: 250px;
+}
+
+.zero-tile {
+	background: black;
+	border: 10px solid black;
 }
