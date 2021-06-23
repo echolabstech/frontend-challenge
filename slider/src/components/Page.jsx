@@ -50,9 +50,13 @@ export default function Page(props) {
     ...rest
   } = props;
   const classes = useStyles();
+  const timeout = {
+    enter: 350,
+    exit: 350,
+  };
 
   return (
-    <Slide direction={direction} in={active}>
+    <Slide direction={direction} in={active} timeout={timeout}>
       <div className={classes.page}>
         <div className={classes.top}>
           <Avatar
