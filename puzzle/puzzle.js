@@ -26,20 +26,23 @@
 	const puzzle = document.querySelector('.puzzle-figure');
 	const tiles = document.querySelectorAll('.tile');
 	tiles.forEach(tile => {tile.onclick = moveTile;});
-	const board = [
-		[8, 5, 6],
-		[3, 1, 7],
-		[4, 2, 0]
-	];
 
 	function random(min, max) {
 	  const num = Math.floor(Math.random() * (max - min + 1)) + min;
 	  return num;
 	}
 
-	const numbers = new Set();
+	let numbers = new Set();
 	while (numbers.size < 8) {
 		const number = random(1, 8);
 		numbers.add(number);
 	}
+	numbers = numbers.values();
+
+	const board = Array(3).fill(undefined).map(() => {
+		return Array(3).fill(undefined).map(() => {
+			return numbers.next().value || 0;
+		});
+	});
+	console.log(board);
 })();
