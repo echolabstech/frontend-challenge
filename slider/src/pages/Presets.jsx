@@ -1,5 +1,6 @@
 import React from 'react';
 import Page from 'components/Page';
+import PaletteIcon from '@material-ui/icons/Palette';
 
 export default function Presets(props) {
   const {
@@ -19,6 +20,7 @@ export default function Presets(props) {
         subHeading="Manage presets"
         active={active}
         direction={direction}
+        icon={<PaletteIcon />}
       />
     </React.Fragment>
   );

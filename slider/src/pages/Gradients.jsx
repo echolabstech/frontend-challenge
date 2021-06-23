@@ -1,5 +1,6 @@
 import React from 'react';
 import Page from 'components/Page';
+import InvertColorsIcon from '@material-ui/icons/InvertColors';
 
 export default function Gradients(props) {
   const {
@@ -19,6 +20,7 @@ export default function Gradients(props) {
         subHeading="Start, end, angle"
         active={active}
         direction={direction}
+        icon={<InvertColorsIcon />}
       />
     </React.Fragment>
   );

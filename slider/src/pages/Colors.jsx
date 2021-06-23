@@ -1,5 +1,6 @@
 import React from 'react';
 import Page from 'components/Page';
+import ColorizeIcon from '@material-ui/icons/Colorize';
 
 export default function Colors(props) {
   const {
@@ -19,6 +20,7 @@ export default function Colors(props) {
         subHeading="Pick any color"
         active={active}
         direction={direction}
+        icon={<ColorizeIcon />}
       />
     </React.Fragment>
   );

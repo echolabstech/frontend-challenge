@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Slide from '@material-ui/core/Slide';
+import SvgIcon from '@material-ui/core/SvgIcon';
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -23,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     background: 'blue',
     width: '100%',
     height: '50%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   avatar: {
     height: theme.spacing(6),
@@ -36,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
   subHeading: {
     marginTop: theme.spacing(1),
   },
+  icon: {
+    fontSize: theme.spacing(12),
+    color: 'white',
+  }
 }));
 
 export default function Page(props) {
@@ -47,6 +56,7 @@ export default function Page(props) {
     subHeading,
     active,
     direction,
+    icon,
     ...rest
   } = props;
   const classes = useStyles();
@@ -92,7 +102,9 @@ export default function Page(props) {
             background: `-moz-linear-gradient(left, ${color1}, ${color2})`,
             background: `linear-gradient(to right, ${color1}, ${color2})`,
           }}
-        ></div>
+        >
+          <SvgIcon className={classes.icon}>{icon}</SvgIcon>
+        </div>
       </div>
     </Slide>
   );
