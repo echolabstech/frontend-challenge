@@ -1,0 +1,25 @@
+figure.puzzle-figure {
+	width: 380px;
+}
+
+ul.puzzle {
+	list-style: none;
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	border: 10px solid black;
+	border-radius: 10px;
+	padding: 0px;
+	background: black;
+}
+
+li.tile {
+	width: 100px;
+	height: 100px;
+	border: 10px inset gray;
+	background: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 3em;
+}

@@ -6,6 +6,7 @@
 	- the puzzle board always has 1 empty space
 */
 (function() {
+	const puzzle = document.querySelector('.puzzle-figure');
 	const board = [
 		[8, 5, 6],
 		[3, 1, 7],
